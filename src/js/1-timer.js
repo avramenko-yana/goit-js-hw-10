@@ -22,19 +22,24 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  closeOnSelect: true,
-  onChange(selectedDates) {
+  closeOnSelect: true,  
+  onClose(selectedDates) { 
     const selectedDate = selectedDates[0];
-    if (selectedDate <= new Date()) {
+    const now = new Date();  
+
+    if (selectedDate <= now) {
+       
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
         position: 'topRight',
       });
-      startBtn.disabled = true;
+      startBtn.disabled = true; 
+      userSelectedDate = null;  
     } else {
-      userSelectedDate = selectedDate;
-      startBtn.disabled = false;
+      
+      userSelectedDate = selectedDate;  
+      startBtn.disabled = false;  
     }
   },
 };
@@ -64,7 +69,7 @@ startBtn.addEventListener('click', () => {
 });
 
 function updateTimerUI({ days, hours, minutes, seconds }) {
-  daysSpan.textContent = days;
+  daysSpan.textContent = addLeadingZero(days);  
   hoursSpan.textContent = addLeadingZero(hours);
   minutesSpan.textContent = addLeadingZero(minutes);
   secondsSpan.textContent = addLeadingZero(seconds);
